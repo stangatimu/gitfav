@@ -1,6 +1,31 @@
-import { CircularProgress, Divider, Grid, Typography } from "@material-ui/core";
-import React from "react";
+import {
+	Backdrop,
+	CircularProgress,
+	Divider,
+	Fade,
+	Grid,
+	makeStyles,
+	Modal,
+	Typography,
+} from "@material-ui/core";
+import React, { useState } from "react";
+import RepoDetails from "./details";
 import Repo from "./repo";
+
+const useStyles = makeStyles({
+	modal: {
+		display: "flex",
+		alignItems: "center",
+		justifyContent: "center",
+		"& .MuiPaper-root ": {
+			overflowY: "auto",
+			maxHeight: "100%",
+			padding: "20px",
+			overflowX: "unset",
+			position: "relative",
+		},
+	},
+});
 
 const Repositories = ({
 	data = [],
@@ -9,6 +34,8 @@ const Repositories = ({
 	title = "Trending repos",
 	is_favorite,
 }) => {
+	const classes = useStyles();
+	const [selected_repo, setSeletedRepo] = useState(false);
 	if (loading) {
 		<Grid
 			container
@@ -37,8 +64,30 @@ const Repositories = ({
 				<Divider style={{ margin: "10px auto" }} />
 			</Grid>
 			{data.map((repo) => (
-				<Repo repo={repo} is_favorite={is_favorite} />
+				<Repo
+					repo={repo}
+					is_favorite={is_favorite}
+					onSelect={() => setSeletedRepo(repo)}
+				/>
 			))}
+			<Modal
+				aria-labelledby="transition-modal-title"
+				aria-describedby="transition-modal-description"
+				open={!!selected_repo}
+				closeAfterTransition
+				BackdropComponent={Backdrop}
+				BackdropProps={{
+					timeout: 500,
+				}}
+				className={classes.modal}
+			>
+				<Fade in={!!selected_repo}>
+					<RepoDetails
+						onClose={() => setSeletedRepo(false)}
+						repo={selected_repo}
+					/>
+				</Fade>
+			</Modal>
 		</Grid>
 	);
 };
