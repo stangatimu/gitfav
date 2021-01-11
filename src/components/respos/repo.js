@@ -29,7 +29,7 @@ const Repo = ({ repo, is_favorite }) => {
 			justify="space-between"
 			elevation={2}
 		>
-			<Typography variant="h6">
+			<Typography noWrap variant="h6">
 				<GitHub color="primary" style={{ marginBottom: "-5px" }} />
 				&nbsp;{repo.full_name}
 			</Typography>

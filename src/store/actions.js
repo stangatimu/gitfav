@@ -8,9 +8,9 @@ export const setReposAction = () => {
 	return async (dispatch) => {
 		try {
 			const res = await github.get(
-				"/repositories?q=stars:%3E1&sort=stars&per_page=20"
+				"/search/repositories?q=stars:%3E1&sort=stars&per_page=50"
 			);
-			const repos = res.data;
+			const repos = res.data?.items;
 
 			dispatch({
 				data: repos,
