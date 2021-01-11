@@ -3,6 +3,7 @@ import * as actions from "./action-types";
 const init_state = {
 	repos: [],
 	favs: [],
+	error: "",
 };
 
 const reducer = (state = init_state, action) => {
@@ -23,6 +24,12 @@ const reducer = (state = init_state, action) => {
 			return {
 				...state,
 				favs: [action.data, ...state.favs],
+			};
+		// set fetching repos error
+		case actions.SET_ERROR:
+			return {
+				...state,
+				error: action.data,
 			};
 		default:
 			return state;
