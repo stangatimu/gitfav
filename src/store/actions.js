@@ -1,5 +1,7 @@
 import { github } from "../axios";
 import handleAxiosError from "../lib/handle-axios-error";
+import { getFavoriteRepos } from "../lib/local-storage";
+
 import * as actions from "./action-types";
 
 export const setReposAction = () => {
@@ -21,5 +23,16 @@ export const setReposAction = () => {
 				type: actions.SET_ERROR,
 			});
 		}
+	};
+};
+
+export const setFavsAction = () => {
+	return async (dispatch) => {
+		const repos = getFavoriteRepos();
+
+		dispatch({
+			data: repos,
+			type: actions.SET_FAVORITES,
+		});
 	};
 };

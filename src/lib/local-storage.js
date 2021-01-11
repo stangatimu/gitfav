@@ -10,8 +10,11 @@ export function getFavoriteRepos() {
 	return repos || [];
 }
 
-export function setFavoriteRepos(repos) {
+export function addFavoriteRepos(repo) {
 	if (global.localStorage) {
-		global.localStorage.setItem("repos", JSON.stringify(repos));
+		// get existing repos
+		const repos = getFavoriteRepos();
+		// combine and save to local storage
+		global.localStorage.setItem("repos", JSON.stringify([repo, ...repos]));
 	}
 }

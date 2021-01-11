@@ -7,6 +7,7 @@ const Repositories = ({
 	loading,
 	error,
 	title = "Trending repos",
+	is_favorite,
 }) => {
 	if (loading) {
 		<Grid
@@ -36,7 +37,7 @@ const Repositories = ({
 				<Divider style={{ margin: "10px auto" }} />
 			</Grid>
 			{data.map((repo) => (
-				<Repo repo={repo} />
+				<Repo repo={repo} is_favorite={is_favorite} />
 			))}
 		</Grid>
 	);

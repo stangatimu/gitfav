@@ -3,13 +3,21 @@ import {
 	Grid,
 	IconButton,
 	Paper,
+	Snackbar,
 	Tooltip,
 	Typography,
 } from "@material-ui/core";
 import { FavoriteBorder, GitHub, Person } from "@material-ui/icons";
-import React from "react";
+import React, { useState } from "react";
+import { addFavoriteRepos } from "../../lib/local-storage";
 
-const Repo = ({ repo }) => {
+const Repo = ({ repo, is_favorite }) => {
+	const [set_favorite_success, setFavoriteSuccess] = useState(false);
+
+	const onSetFavoriteRepo = () => {
+		addFavoriteRepos(repo);
+		setFavoriteSuccess(true);
+	};
 	return (
 		<Grid
 			component={Paper}
@@ -26,7 +34,11 @@ const Repo = ({ repo }) => {
 				&nbsp;{repo.full_name}
 			</Typography>
 			<Tooltip placement="top" arrow title="Bookmark Repository">
-				<IconButton size="small">
+				<IconButton
+					color={is_favorite ? "secondary" : ""}
+					onClick={is_favorite ? undefined : onSetFavoriteRepo}
+					size="small"
+				>
 					<FavoriteBorder />
 				</IconButton>
 			</Tooltip>
@@ -39,6 +51,11 @@ const Repo = ({ repo }) => {
 					&nbsp;{repo?.owner?.login}
 				</Typography>
 			</Grid>
+			<Snackbar
+				open={set_favorite_success}
+				onClose={() => setFavoriteSuccess(false)}
+				message={repo.full_name + " has been bookmarked successfully"}
+			/>
 		</Grid>
 	);
 };
